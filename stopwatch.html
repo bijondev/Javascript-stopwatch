@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stopwatch</title>
+</head>
+<body>
+	<h1>Stopwatch</h1>
+	<button id="startButton">Start</button>
+	<button id="stopButton">Stop</button>
+	<button id="resetButton">Reset</button>
+	<h2 id="timerDisplay">00:00:00</h2>
+	<script>
+		// Initialize variables
+		let startTime = 0;
+		let elapsedTime = 0;
+		let timerInterval = null;
+		const timerDisplay = document.getElementById("timerDisplay");
+
+		// Function to start the stopwatch
+		function startTimer() {
+			startTime = Date.now() - elapsedTime;
+			timerInterval = setInterval(updateTimer, 10);
+		}
+
+		// Function to stop the stopwatch
+		function stopTimer() {
+			clearInterval(timerInterval);
+		}
+
+		// Function to reset the stopwatch
+		function resetTimer() {
+			stopTimer();
+			elapsedTime = 0;
+			startTime = 0;
+			timerInterval = null;
+			timerDisplay.innerText = '00:00:00';
+			// updateTimer();
+		}
+
+		// Function to update the stopwatch display
+		function updateTimer() {
+			elapsedTime = Date.now() - startTime;
+			let minutes = Math.floor(elapsedTime / 60000);
+			let seconds = Math.floor((elapsedTime % 60000) / 1000);
+			let milliseconds = Math.floor((elapsedTime % 1000) / 10);
+			timerDisplay.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(2, '0')}`;
+		}
+
+		// Add event listeners to buttons
+		document.getElementById("startButton").addEventListener("click", startTimer);
+		document.getElementById("stopButton").addEventListener("click", stopTimer);
+		document.getElementById("resetButton").addEventListener("click", resetTimer);
+	</script>
+</body>
+</html>
